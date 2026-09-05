@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Shared settings and every game reference live in ../Directory.Build.props
+       (self-contained for this standalone repo), including DeadReckoned.Tlsa for
+       the "item added" toast. This file only names the plugin. -->
+  <PropertyGroup>
+    <AssemblyName>Dismantle</AssemblyName>
+    <Version>1.0.0</Version>
+  </PropertyGroup>
+
+</Project>

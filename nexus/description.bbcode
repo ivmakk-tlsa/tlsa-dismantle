@@ -1,0 +1,38 @@
+[size=5]Description[/size]
+Dismantle turns the inventory Dispose action into a salvage. Instead of destroying an item, Dispose now returns parts. The menu label stays "Dispose"; only the outcome changes.
+
+Dispose a can of food and keep the can. Dispose a spare gun and get scrap or firearm parts. Dispose a crafted item and get one of the parts you built it from. The salvage goes straight to your inventory with the game's own "added" popup, so there is no busywork: an item you do not want is one click to break down.
+
+[size=5]Main features[/size]
+[list]
+[*]Dispose returns salvage instead of destroying the item.
+[*]Consumables give back the container they leave on use (a can, a bottle), for the whole stack at once.
+[*]Weapons return scrap and parts; craftables return one of the parts you built them from.
+[*]Throwables return their surviving parts (a molotov's alcohol, a bomb's explosives).
+[*]Every rule has an on/off toggle, and every weapon and material chance is a config slider.
+[/list]
+
+[size=5]Requirements[/size]
+[list]
+[*][url=https://www.nexusmods.com/thelaststandaftermath/mods/1]BepInEx for The Last Stand: Aftermath[/url]. Install it first.
+[/list]
+
+[size=5]Installation[/size]
+[list=1]
+[*]Install [url=https://www.nexusmods.com/thelaststandaftermath/mods/1]BepInEx[/url] [i](if no other mods were installed before, start the game once so BepInEx finishes setup, then quit)[/i].
+[*]Extract this mod's zip into the game folder (the folder with the game .exe). The DLL lands in BepInEx\plugins. Full path examples:
+[list]
+[*]Steam: [code]C:\Program Files (x86)\Steam\steamapps\common\The Last Stand Aftermath\BepInEx\plugins\Dismantle.dll[/code]
+[*]Epic: [code]C:\Program Files\Epic Games\The Last Stand Aftermath\BepInEx\plugins\Dismantle.dll[/code]
+[/list]
+[*]Start the game. Dispose an item from the inventory and the salvage appears.
+[/list]
+
+Not working? Open BepInEx\LogOutput.log and look for the Dismantle loaded line.
+
+[size=5]Uninstall[/size]
+Delete Dismantle.dll from the BepInEx\plugins folder.
+
+[size=5]Source and license[/size]
+Open source under GPL-3.0: [url=https://github.com/ivmakk-tlsa/tlsa-dismantle]github.com/ivmakk-tlsa/tlsa-dismantle[/url]
+The full salvage table and every config option are in the repo's docs/dismantle-recipes.md.

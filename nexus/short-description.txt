@@ -1,0 +1,1 @@
+Dispose now salvages items into parts instead of destroying them.
