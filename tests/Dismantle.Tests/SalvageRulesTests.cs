@@ -54,8 +54,9 @@ public class SalvageRulesTests
         string id,
         string category,
         (string, int)[] byproducts = null,
-        (string, int)[] recipe = null)
-        => new SalvageInput(id, category, byproducts, recipe);
+        (string, int)[] recipe = null,
+        bool repair = false)
+        => new SalvageInput(id, category, byproducts, recipe, repair);
 
     // A rng that must not be touched. Used to assert a path consumes no rolls.
     private static FakeRng NoRolls() => new FakeRng();
@@ -114,6 +115,33 @@ public class SalvageRulesTests
         var outputs = SalvageRules.Collect(input, DefaultConfig(), new FakeRng(ints: new[] { 0 }));
 
         Assert.Equal("Can", Assert.Single(outputs).Id);
+    }
+
+    // ---- Repair recipes fall through to the category rule ----
+
+    [Fact]
+    public void Repair_recipe_ranged_weapon_uses_category_not_recipe_input()
+    {
+        // A looted ranged weapon has only a repair recipe (its inputs include its own damaged
+        // version). It must never return that broken weapon: it skips the craftable pick and takes
+        // the ranged category weighted pick instead.
+        var input = Input("AK47", "rangedWeapon", recipe: new[] { ("Scrap", 1), ("AK47_Damaged", 1) }, repair: true);
+
+        // No int roll is consumed (the craftable pick is skipped); the category rule rolls one double.
+        var outputs = SalvageRules.Collect(input, DefaultConfig(), new FakeRng(new[] { 0.4 }));
+
+        var o = Assert.Single(outputs);
+        Assert.Equal("Scrap", o.Id); // roll 0.4 < 0.5 lands on the ranged scrap weight, never AK47_Damaged
+    }
+
+    [Fact]
+    public void Repair_recipe_melee_weapon_uses_category_not_recipe_input()
+    {
+        var input = Input("MeleeMachete", "meleeWeapon", recipe: new[] { ("Scrap", 1), ("MeleeMachete_Damaged", 1) }, repair: true);
+
+        var outputs = SalvageRules.Collect(input, DefaultConfig(), new FakeRng(new[] { 0.4 }));
+
+        Assert.Equal("Scrap", Assert.Single(outputs).Id);
     }
 
     // ---- Craftable category scope ----

@@ -18,7 +18,7 @@ Some items always return something; others can leave you empty-handed. **Disposi
 | Molotov Cocktail, Can Bomb, Beeper Bomb or Box Mine | A chance to recover parts; see [Throwables](#throwables) |
 | Plain Bat, Board, ammo and other items with no salvage recipe | Nothing |
 
-A weapon with a **repair recipe** uses the recipe-ingredient rule too. That means a repaired gun or blade can give you its damaged version back instead of Scrap.
+A weapon that can only be **repaired** (not crafted) does not use the recipe-ingredient rule. It follows the no-crafting-recipe weapon rule (Scrap or weapon parts).
 
 ## Food and water
 
@@ -102,21 +102,9 @@ This covers items that have a recipe, whether you crafted them yourself or found
 
 ### Weapons with repair recipes
 
-| Disposed item | Possible salvage (50% each) |
-|---|---|
-| AK-47 | 1 Scrap or 1 AK-47 (damaged) |
-| Ambrose Shotgun | 1 Ambrose Shotgun (damaged) or 1 Scrap |
-| Cleaver | 1 Cleaver (damaged) or 1 Scrap |
-| Death Adder | 1 Death Adder (damaged) or 1 Scrap |
-| G17 Pistol | 1 G17 Pistol (damaged) or 1 Scrap |
-| Hatchet | 1 Hatchet (damaged) or 1 Scrap |
-| Hunting Rifle | 1 Hunting Rifle (damaged) or 1 Scrap |
-| Kitchen Knife | 1 Kitchen Knife (damaged) or 1 Scrap |
-| M16 | 1 M16 (damaged) or 1 Scrap |
-| M1911 | 1 M1911 (damaged) or 1 Scrap |
-| M4A1 | 1 M4A1 (damaged) or 1 Scrap |
-| Machete | 1 Machete (damaged) or 1 Scrap |
-| Tauron 9mm | 1 Tauron 9mm (damaged) or 1 Scrap |
+Some looted guns and blades can only be repaired, not crafted, so their only recipe consumes their own damaged version. They follow the [weapon without a crafting recipe](#weapons-without-a-crafting-recipe) rule instead: a gun gives Scrap or Firearm Parts, a metal blade gives Scrap or Melee Parts.
+
+This covers: AK-47, Ambrose Shotgun, Cleaver, Death Adder, G17 Pistol, Hatchet, Hunting Rifle, Kitchen Knife, M16, M1911, M4A1, Machete and Tauron 9mm.
 
 The mod reads crafting ingredients and empty-container returns from the game. These tables describe the current recipes; future game updates may change them.
 

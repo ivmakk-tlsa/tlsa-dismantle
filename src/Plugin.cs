@@ -137,6 +137,8 @@ public static class Salvage
     private static Dictionary<string, ItemModel> s_models;
     // Output item name -> its recipe inputs (id, qty), built once from CraftingRecipeModel.AllRecipes.
     private static Dictionary<string, List<(string id, int qty)>> s_recipes;
+    // Output names whose recipe is a repair (an input is the item's own "<name>_Damaged" version).
+    private static HashSet<string> s_repairOutputs;
 
     // Decide the salvage for a disposed model. Reads the game data into a SalvageInput and runs the
     // rules. The outputs carry ids only; Give resolves them.
@@ -146,7 +148,8 @@ public static class Salvage
             model.name,
             model.Category?.Identifier,
             ReadByproducts(model),
-            ReadRecipeInputs(model.name));
+            ReadRecipeInputs(model.name),
+            IsRepairRecipe(model.name));
         return SalvageRules.Collect(input, CurrentConfig(), s_rng);
     }
 
@@ -248,6 +251,14 @@ public static class Salvage
         return null;
     }
 
+    // True when the item's recipe is a repair recipe (an input is its own "<name>_Damaged" version).
+    // Builds the recipe map on first use, so the repair set is ready alongside it.
+    private static bool IsRepairRecipe(string name)
+    {
+        Recipes();
+        return s_repairOutputs != null && s_repairOutputs.Contains(name);
+    }
+
     // Raise the game's "<item> added to inventory" toast - the same one shown when a consumable
     // leaves a byproduct on use. Mirrors CreateItemAction.Execute: pull a pooled event from the
     // cache, set its text from the notification_itemadded localization key, and raise it. With no
@@ -322,6 +333,7 @@ public static class Salvage
             return null;
         }
         var map = new Dictionary<string, List<(string id, int qty)>>();
+        var repair = new HashSet<string>();
         for (int i = 0; i < recipes.Count; i++)
         {
             var recipe = recipes[i];
@@ -330,6 +342,8 @@ public static class Salvage
             {
                 continue;
             }
+            string damagedName = outModel.name + "_Damaged";
+            bool isRepair = false;
             var inputs = new List<(string id, int qty)>();
             int count = recipe.InputItemCount;
             for (int j = 0; j < count; j++)
@@ -340,14 +354,23 @@ public static class Salvage
                 if (inModel != null && qty > 0)
                 {
                     inputs.Add((inModel.name, qty));
+                    if (inModel.name == damagedName)
+                    {
+                        isRepair = true;
+                    }
                 }
             }
             if (inputs.Count > 0)
             {
                 map[outModel.name] = inputs;
+                if (isRepair)
+                {
+                    repair.Add(outModel.name);
+                }
             }
         }
         s_recipes = map;
+        s_repairOutputs = repair;
         return s_recipes;
     }
 }

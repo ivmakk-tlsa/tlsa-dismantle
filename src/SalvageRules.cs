@@ -27,17 +27,23 @@ public readonly struct SalvageInput
     public readonly string Category;
     public readonly IReadOnlyList<(string Id, int Amount)> Byproducts;
     public readonly IReadOnlyList<(string Id, int Amount)> RecipeInputs;
+    // True when RecipeInputs come from a repair recipe (its inputs include the item's own damaged
+    // version). Such an item skips the craftable pick and falls through to the category rule, so a
+    // salvage never returns a broken weapon.
+    public readonly bool RecipeIsRepair;
 
     public SalvageInput(
         string id,
         string category,
         IReadOnlyList<(string Id, int Amount)> byproducts,
-        IReadOnlyList<(string Id, int Amount)> recipeInputs)
+        IReadOnlyList<(string Id, int Amount)> recipeInputs,
+        bool recipeIsRepair = false)
     {
         Id = id;
         Category = category;
         Byproducts = byproducts;
         RecipeInputs = recipeInputs;
+        RecipeIsRepair = recipeIsRepair;
     }
 }
 
@@ -210,6 +216,12 @@ public static class SalvageRules
             return false;
         }
         if (input.RecipeInputs == null || input.RecipeInputs.Count == 0)
+        {
+            return false;
+        }
+        // A repair recipe's inputs include the item's own damaged version. Never salvage that: fall
+        // through so a weapon uses the category rule (scrap or parts) instead of returning a broken one.
+        if (input.RecipeIsRepair)
         {
             return false;
         }

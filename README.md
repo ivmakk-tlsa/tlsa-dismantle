@@ -8,7 +8,7 @@ Keep the empty cans from unwanted food, turn a spare attachment into Scrap, or t
 
 - **Canned food and water** return their empty Can or Plastic Bottle, one per item disposed.
 - **Bandages** return 1 Rag. **Batteries** have a 50% chance to return 1 Electronics each.
-- **Craftable weapons, attachments and crafting parts** return one randomly chosen recipe ingredient. Weapons with repair recipes can return their damaged version.
+- **Craftable weapons, attachments and crafting parts** return one randomly chosen recipe ingredient. A weapon that can only be repaired (not crafted) returns Scrap or its weapon parts instead.
 - **Guns without a crafting recipe** return 1 Scrap (90%) or 1 Firearm Parts (10%). **Metal melee weapons without a recipe** return 1 Scrap (95%) or 1 Melee Parts (5%).
 - **Attachments without a crafting recipe** return 1 Scrap.
 - **Molotovs and improvised bombs** have a chance to return Alcohol, Explosives or other parts.
