@@ -21,8 +21,7 @@ Tracks the mod's Nexus page details. Fill the id and URL after the page is creat
 
 - Short description: `short-description.txt` (the draft-dialog field, 350-char limit; kept to one line).
 - Full description: `description.bbcode` (paste into the editor's raw BBCode mode).
-- Background: `images/banner.jpg` (1300x372). Set as the mod page background.
-- Gallery images (1920x1080): the effect is inventory-based, so stage the shots. Suggested set:
-  - `01-tlsa_dismantle_thumb.jpg` - hero: an inventory with the salvage just added and the "added" popup showing. Pick this as the mods-grid thumbnail.
-  - `02-tlsa_dismantle_weapon.jpg` - before/after: a spare gun disposed, scrap/firearm parts returned.
-  - `03-tlsa_dismantle_consumable.jpg` - before/after: a stack of canned food disposed, the cans returned in one go.
+- Background: `images/banner.jpg` (1920x550). Set as the mod page background.
+- Gallery images (1920x1080): the effect is inventory-based, so the shot is staged.
+  - `01-tlsa_dismantle_sample.jpg` - an inventory with the salvage just added and the "added" popup showing.
+  - `02-tlsa_dismantle_thumb.jpg` - the mods-grid thumbnail.
