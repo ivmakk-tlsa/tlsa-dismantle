@@ -52,6 +52,7 @@ public class Plugin : BasePlugin
     internal static ConfigEntry<bool> EnableMeleeWeapons;
     internal static ConfigEntry<bool> EnableBattery;
     internal static ConfigEntry<bool> EnableThrowables;
+    internal static ConfigEntry<bool> EnableAttachments;
 
     internal static ConfigEntry<float> RangedScrapChance;
     internal static ConfigEntry<float> RangedGearChance;
@@ -64,6 +65,7 @@ public class Plugin : BasePlugin
     internal static ConfigEntry<float> CanBombChance;
     internal static ConfigEntry<float> BeeperBombChance;
     internal static ConfigEntry<float> BoxMineChance;
+    internal static ConfigEntry<float> AttachmentScrapChance;
 
     public override void Load()
     {
@@ -90,6 +92,9 @@ public class Plugin : BasePlugin
         EnableThrowables = Config.Bind(
             "Rules", "EnableThrowables", true,
             "When true, disposing a craftable throwable returns its surviving parts: a molotov's alcohol, a bomb's explosives and metal/electronics. The soaked rag wick and punctured cans are lost. Non-craftable throwables (grenades, bricks) return nothing.");
+        EnableAttachments = Config.Bind(
+            "Rules", "EnableAttachments", true,
+            "When true, disposing a non-craftable attachment (looted suppressors, scopes, sights, magazines, ammo mods) returns scrap at AttachmentScrapChance. Craftable attachments return one of their recipe inputs (EnableCraftable) instead.");
 
         // Salvage chances (0..1). A non-craftable weapon returns at most one material: the three
         // weights below are a single weighted pick, and their leftover (1 - their sum) is the
@@ -103,14 +108,15 @@ public class Plugin : BasePlugin
         RangedScrapChance = BindChance("RangedScrapChance", 0.9f, "Weight that a non-craftable ranged weapon returns 1 scrap. Ranged weights share one pick; 0.9 + firearm parts 0.1 sums to 1, so a ranged dispose always returns one material.");
         RangedGearChance = BindChance("RangedGearChance", 0f, "Weight that a non-craftable ranged weapon returns 1 gear. Off by default; raise it to add gear to the pool.");
         RangedFirearmPartsChance = BindChance("RangedFirearmPartsChance", 0.1f, "Weight that a non-craftable ranged weapon returns 1 firearm parts.");
-        MeleeScrapChance = BindChance("MeleeScrapChance", 0.5f, "Weight that a non-craftable metal melee weapon returns 1 scrap. Melee weights share one pick.");
+        MeleeScrapChance = BindChance("MeleeScrapChance", 0.95f, "Weight that a non-craftable metal melee weapon returns 1 scrap. Melee weights share one pick; 0.95 + melee parts 0.05 sums to 1, so a melee dispose always returns one material.");
         MeleeTapeChance = BindChance("MeleeTapeChance", 0f, "Weight that a non-craftable metal melee weapon returns 1 tape. Off by default; raise it to add tape to the pool.");
         MeleePartsChance = BindChance("MeleePartsChance", 0.05f, "Weight that a non-craftable metal melee weapon returns 1 melee parts.");
         BatteryElectronicsChance = BindChance("BatteryElectronicsChance", 0.5f, "Chance a disposed Battery returns 1 electronics.");
-        MolotovChance = BindChance("MolotovChance", 0.5f, "Chance a disposed Molotov Cocktail returns 1 alcohol. The soaked rag wick is lost.");
+        MolotovChance = BindChance("MolotovChance", 0.75f, "Chance a disposed Molotov Cocktail returns 1 alcohol. The soaked rag wick is lost.");
         CanBombChance = BindChance("CanBombChance", 0.5f, "Chance a disposed Can Bomb returns 1 explosives. The punctured can is lost.");
         BeeperBombChance = BindChance("BeeperBombChance", 0.33f, "Chance a disposed Beeper Bomb returns each of 1 explosives and 1 electronics, rolled independently.");
         BoxMineChance = BindChance("BoxMineChance", 0.33f, "Chance a disposed Box Mine returns each of 1 explosives and 1 scrap, rolled independently.");
+        AttachmentScrapChance = BindChance("AttachmentScrapChance", 1f, "Chance a disposed non-craftable attachment returns 1 scrap.");
 
         var harmony = new Harmony(PluginGuid);
         harmony.PatchAll();
@@ -190,6 +196,7 @@ public static class Salvage
         EnableMeleeWeapons = Plugin.EnableMeleeWeapons.Value,
         EnableBattery = Plugin.EnableBattery.Value,
         EnableThrowables = Plugin.EnableThrowables.Value,
+        EnableAttachments = Plugin.EnableAttachments.Value,
         RangedScrapChance = Plugin.RangedScrapChance.Value,
         RangedGearChance = Plugin.RangedGearChance.Value,
         RangedFirearmPartsChance = Plugin.RangedFirearmPartsChance.Value,
@@ -201,6 +208,7 @@ public static class Salvage
         CanBombChance = Plugin.CanBombChance.Value,
         BeeperBombChance = Plugin.BeeperBombChance.Value,
         BoxMineChance = Plugin.BoxMineChance.Value,
+        AttachmentScrapChance = Plugin.AttachmentScrapChance.Value,
     };
 
     // A consumable's use-time byproducts as (output id, count). Each CreateItemAction makes an item

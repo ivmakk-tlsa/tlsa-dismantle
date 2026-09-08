@@ -50,6 +50,7 @@ public struct SalvageConfig
     public bool EnableMeleeWeapons;
     public bool EnableBattery;
     public bool EnableThrowables;
+    public bool EnableAttachments;
 
     public float RangedScrapChance;
     public float RangedGearChance;
@@ -62,6 +63,7 @@ public struct SalvageConfig
     public float CanBombChance;
     public float BeeperBombChance;
     public float BoxMineChance;
+    public float AttachmentScrapChance;
 }
 
 // A random source the caller supplies, so a test can script the rolls. The game uses System.Random;
@@ -120,6 +122,7 @@ public static class SalvageRules
         }
         CollectRanged(input, cfg, rng, outputs);
         CollectMelee(input, cfg, rng, outputs);
+        CollectAttachment(input, cfg, outputs);
         return outputs;
     }
 
@@ -245,6 +248,18 @@ public static class SalvageRules
             ("Scrap", cfg.MeleeScrapChance),
             ("Tape", cfg.MeleeTapeChance),
             ("MeleeUpgrade", cfg.MeleePartsChance));
+    }
+
+    // A non-craftable attachment (looted suppressors, scopes, sights, magazines, ammo mods) returns
+    // scrap. Craftable attachments never reach here: the craftable rule matches them first and
+    // returns, so this rule only sees the looted ones.
+    private static void CollectAttachment(in SalvageInput input, in SalvageConfig cfg, List<SalvageOutput> outputs)
+    {
+        if (!cfg.EnableAttachments || input.Category != "attachment")
+        {
+            return;
+        }
+        Add(outputs, "Scrap", cfg.AttachmentScrapChance);
     }
 
     // The give-time stack math, pure. For each output the amount is the expected value

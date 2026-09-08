@@ -35,6 +35,7 @@ public class SalvageRulesTests
         EnableMeleeWeapons = true,
         EnableBattery = true,
         EnableThrowables = true,
+        EnableAttachments = true,
         RangedScrapChance = 0.5f,
         RangedGearChance = 0.25f,
         RangedFirearmPartsChance = 0.1f,
@@ -46,6 +47,7 @@ public class SalvageRulesTests
         CanBombChance = 0.5f,
         BeeperBombChance = 0.33f,
         BoxMineChance = 0.33f,
+        AttachmentScrapChance = 1f,
     };
 
     private static SalvageInput Input(
@@ -200,6 +202,46 @@ public class SalvageRulesTests
         var outputs = SalvageRules.Collect(input, DefaultConfig(), new FakeRng(new[] { 0.4 }));
 
         Assert.Equal("Scrap", Assert.Single(outputs).Id);
+    }
+
+    // ---- Attachments ----
+
+    [Fact]
+    public void Noncraftable_attachment_returns_scrap()
+    {
+        var input = Input("AttachSuppressorAR", "attachment");
+
+        var outputs = SalvageRules.Collect(input, DefaultConfig(), NoRolls());
+
+        var o = Assert.Single(outputs);
+        Assert.Equal("Scrap", o.Id);
+        Assert.Equal(1.0, o.Chance);
+    }
+
+    [Fact]
+    public void Noncraftable_attachment_returns_nothing_when_disabled()
+    {
+        var cfg = DefaultConfig();
+        cfg.EnableAttachments = false;
+        var input = Input("AttachSuppressorAR", "attachment");
+
+        var outputs = SalvageRules.Collect(input, cfg, NoRolls());
+
+        Assert.Empty(outputs);
+    }
+
+    [Fact]
+    public void Craftable_attachment_returns_recipe_input_not_scrap_rule()
+    {
+        // A craftable attachment matches the craftable rule first (one of its inputs), so the
+        // non-craftable scrap rule never runs for it.
+        var input = Input("AttachSuppressorOilFilter", "attachment", recipe: new[] { ("OilFilter", 1), ("Scrap", 1) });
+
+        var outputs = SalvageRules.Collect(input, DefaultConfig(), new FakeRng(ints: new[] { 0 }));
+
+        var o = Assert.Single(outputs);
+        Assert.Equal("OilFilter", o.Id);
+        Assert.Equal(1.0, o.Chance);
     }
 
     // ---- Explicit battery, with its chance carried to the give step ----
