@@ -8,11 +8,11 @@ All notable changes to this mod are documented here. The format follows [Keep a 
 
 ### Added
 
-- The inventory Dispose action now returns salvage instead of destroying the item. The menu label stays "Dispose".
-- Consumables that leave an item on use (canned food, water) return that item on dispose, one per unit.
-- Bandages return a rag; a battery returns electronics.
-- Craftable throwables (molotov, can bomb, beeper bomb, box mine) return their surviving parts.
-- Craftable weapons, attachments and crafting parts return one of their recipe inputs, chosen at random.
-- Ranged weapons return scrap or firearm parts; metal melee weapons return scrap or melee parts. Wooden or primitive melee returns nothing.
-- Each returned item raises the game's own "added to inventory" popup.
-- Per-rule on/off toggles and configurable weapon and material chances, all in the config file.
+- Salvage useful components from supported inventory items with the Dispose action.
+- Canned food and bottled water return their empty containers, one per item disposed.
+- Bandages return 1 Rag; Batteries have a 50% chance to return 1 Electronics each.
+- Molotov Cocktails, Can Bombs, Beeper Bombs and Box Mines have a chance to return some of their components.
+- Craftable weapons, attachments and crafting parts return one randomly chosen recipe ingredient. Weapons with repair recipes can return their damaged version.
+- Ranged weapons without a crafting recipe return Scrap or Firearm Parts; metal melee weapons without a recipe return Scrap or Melee Parts. Plain Bats and Boards return nothing.
+- Attachments without a crafting recipe return 1 Scrap.
+- Recovered items go straight into the inventory with the game's usual "added to inventory" popup.

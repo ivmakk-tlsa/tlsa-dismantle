@@ -1,1 +1,1 @@
-Dispose now salvages items into parts instead of destroying them.
+Dismantle inventory items with Dispose into useful components instead of feeding the void.

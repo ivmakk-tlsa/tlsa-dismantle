@@ -1,30 +1,21 @@
 # Dismantle
 
-A mod for [*The Last Stand: Aftermath*](https://www.nexusmods.com/thelaststandaftermath) that turns the inventory **Dispose** action into a salvage. Instead of destroying an item, Dispose now returns parts. The menu label stays "Dispose"; only the outcome changes.
+A mod for [*The Last Stand: Aftermath*](https://www.nexusmods.com/thelaststandaftermath) that lets you recover useful parts from unwanted gear through the inventory's **Dispose** action.
 
-Dispose a can of food and keep the can. Dispose a spare gun and get scrap or firearm parts. Dispose a crafted item and get one of the parts you built it from. Nothing is forced on you: an item you have no use for is still one click to break down, and the parts go straight to your inventory with the game's own "added" popup.
+Keep the empty cans from unwanted food, turn a spare attachment into Scrap, or take a crafted weapon apart for a recipe ingredient. Use Dispose as usual, including the quantity or confirmation prompt. Any recovered parts go straight into your inventory with the game's usual "added to inventory" popup.
 
 ## What you get
 
-Salvage is decided by rules in priority order (the first match wins):
+- **Canned food and water** return their empty Can or Plastic Bottle, one per item disposed.
+- **Bandages** return 1 Rag. **Batteries** have a 50% chance to return 1 Electronics each.
+- **Craftable weapons, attachments and crafting parts** return one randomly chosen recipe ingredient. Weapons with repair recipes can return their damaged version.
+- **Guns without a crafting recipe** return 1 Scrap (90%) or 1 Firearm Parts (10%). **Metal melee weapons without a recipe** return 1 Scrap (95%) or 1 Melee Parts (5%).
+- **Attachments without a crafting recipe** return 1 Scrap.
+- **Molotovs and improvised bombs** have a chance to return Alcohol, Explosives or other parts.
 
-- **Consumable byproduct** - a consumable that leaves an item on use (a can, a bottle) returns that same item, one per unit disposed.
-- **Bandages** return a rag; a **Battery** returns electronics.
-- **Craftable throwables** (molotov, can bomb, beeper bomb, box mine) return their surviving parts. The soaked rag wick and punctured cans are lost.
-- **Craftable weapons, attachments and crafting parts** return one of their recipe inputs, chosen at random.
-- **Ranged weapons** return scrap or firearm parts; **metal melee weapons** return scrap or melee parts. Wooden or primitive melee, and anything with no rule, dispose as before.
+Some items still give nothing, including a plain Bat or Board, ammo and non-craftable throwables. Batteries and improvised throwables can also return nothing if the salvage chance fails. Disposing still removes the item.
 
-Weapon and material salvage is chance-based. Every rule has an on/off toggle, and every chance is a slider in the config. The full salvage table, every chance, and every config key are in [docs/dismantle-recipes.md](docs/dismantle-recipes.md).
-
-## Config
-
-The config file is `BepInEx\config\com.ivmakk.tlsa.dismantle.cfg`, written on first run. Edit it and restart the game to tune.
-
-- `[Rules]` - one toggle per rule (`EnableConsumableByproducts`, `EnableCraftable`, `EnableRangedWeapons`, `EnableMeleeWeapons`, `EnableBattery`, `EnableThrowables`), all default on.
-- `[Chances]` - the weapon and material chances (0 to 1), rendered as sliders by ConfigurationManager.
-- `[General]` - `Verbose` logs each dispose and its salvage. Off by default; keep it off in normal play.
-
-See [docs/dismantle-recipes.md](docs/dismantle-recipes.md) for what each key does and its default.
+See the [full dismantling recipes and salvage chances](docs/dismantle-recipes.md) for item-by-item returns and stack examples.
 
 ## Install
 
@@ -32,7 +23,9 @@ See [docs/dismantle-recipes.md](docs/dismantle-recipes.md) for what each key doe
 2. Extract this mod's zip into the game folder (the folder with the game .exe). The DLL lands in `BepInEx\plugins`. Full path examples:
    - Steam: `C:\Program Files (x86)\Steam\steamapps\common\The Last Stand Aftermath\BepInEx\plugins\Dismantle.dll`
    - Epic: `C:\Program Files\Epic Games\The Last Stand Aftermath\BepInEx\plugins\Dismantle.dll`
-3. Start the game. Dispose an item from the inventory and the salvage appears.
+3. Start the game and load a save.
+
+**Example:** Dispose of a non-craftable attachment to recover 1 Scrap.
 
 Not working? Open `BepInEx\LogOutput.log` and look for the `Dismantle loaded` line.
 
