@@ -3,8 +3,8 @@
 Tracks the mod's Nexus page details. Fill the id and URL after the page is created.
 
 - Mod name: Dismantle
-- Mod id: TBD
-- URL: TBD
+- Mod id: 10
+- URL: https://www.nexusmods.com/thelaststandaftermath/mods/10
 - Domain: thelaststandaftermath
 - Category: Miscellaneous (or Gameplay)
 - Short description: see `short-description.txt` (a one-line hook; the only text shown on the mods-list grid).
